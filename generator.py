@@ -2,16 +2,20 @@ import numpy as np
 import random
 import utility
 
-def gen_puzzle(n):
-    puzzle = []
-    numbers = []
-    for i in range (n**2):
-        numbers.append(i)
-    for i in range(n**2):
-        rand = random.randint(0, len(numbers) - 1)
-        puzzle.append(numbers[rand])
-        numbers.pop(rand)
-    return(puzzle)
+def gen_puzzle(n, moves):
+    state = gen_solution(n)
+    prev = state
+    for i in range(moves):
+        moves = utility.get_moves(state)
+        for i in range(len(moves)):
+            if (moves[i].all() == prev.all()):
+                moves.pop(i)
+                break
+        for s in moves:
+            print(s)
+        state = moves[random.randint(0, len(moves))]
+        prev = state
+    return state
 
 def cycle(sx, sy):
     if (sx == 1 and sy == 0):
@@ -29,7 +33,7 @@ def gen_solution(n):
     x, y = [0, 0]
     sx, sy = [1, 0]
     while i != n**2:
-        if (utility.is_valid(sol, x + sx, y + sy) == 0):
+        if (utility.is_valid_or_empty(sol, x + sx, y + sy) == 0):
             sx, sy = cycle(sx, sy)
         sol[y][x] = i
         i += 1
