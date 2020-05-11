@@ -8,13 +8,11 @@ def gen_puzzle(n, moves):
     for i in range(moves):
         moves = utility.get_moves(state)
         for i in range(len(moves)):
-            if (moves[i].all() == prev.all()):
+            if (np.array_equal(moves[i], prev)):
                 moves.pop(i)
                 break
-        for s in moves:
-            print(s)
-        state = moves[random.randint(0, len(moves))]
         prev = state
+        state = moves[random.randint(0, len(moves) - 1)]
     return state
 
 def cycle(sx, sy):
