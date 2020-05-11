@@ -10,6 +10,7 @@ def check_file(file):
 		with open(file, "r") as f:
 			data = f.read()
 			ds, i = data.split("\n"), 0
+			size = 3
 			for line in ds:
 				line = re.sub(r"[\s\t]+", ' ', line).strip()
 				if line.strip()[0] != "#":
@@ -17,17 +18,23 @@ def check_file(file):
 						n = line.split()
 						if len(n) != 1:
 							raise ValueError()
-						array = np.zeros((int(n[0]), int(n[0])))
+						size = int(n[0])
+						array = np.zeros((size, size))
 					else:
-						array[i - 1] = list(eval(line.replace(" ", ", ")))
+						check = line.find("#")
+						if check != -1:
+							line = line[:check]
+						app = list(eval(line.replace(" ", ", ")))
+						if len(app) != size:
+							raise ValueError()
+						array[i - 1] = app
 					i += 1
 			#print(f"FILE : \n{data}\n")
 			#print(f"Array returned : \n{array}\n")
 			#print(f"Comments: \n{comments}")
 			return array
-	except ValueError as e:
-		print(e)
-		print("Error only one number on first line of puzzle for the size")
+	except:
+		print("Error")
 		exit()
 
 
