@@ -3,7 +3,6 @@ import random
 import utility
 
 def gen_puzzle(n, moves):
-<<<<<<< HEAD
     state = gen_solution(n)
     prev = state
     for i in range(moves):
@@ -15,21 +14,6 @@ def gen_puzzle(n, moves):
         prev = state
         state = moves[random.randint(0, len(moves) - 1)]
     return state
-=======
-	state = gen_solution(n)
-	prev = state
-	for i in range(moves):
-		moves = utility.get_moves(state)
-		for i in range(len(moves)):
-			if (moves[i].all() == prev.all()):
-				moves.pop(i)
-				break
-		for s in moves:
-			print(s)
-		state = moves[random.randint(0, len(moves))]
-		prev = state
-	return state
->>>>>>> f9e22731684e3dbf18f63286dd3d6ed2dab2c525
 
 def cycle(sx, sy):
 	if (sx == 1 and sy == 0):
