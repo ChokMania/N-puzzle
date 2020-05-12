@@ -1,9 +1,6 @@
-import sys
-import random
+import sys, random, argparse, re
 import numpy as np
 import generator
-import argparse
-import re
 
 def check_file(file):
 	try:
@@ -33,7 +30,7 @@ def check_file(file):
 			array = np.round(array.transpose()).astype(int)
 			if i != size + 1 or not np.array_equal(np.sort(np.concatenate(array)), np.array(range(0, size * size))):
 				raise ValueError()
-			return array
+			return array.transpose()
 	except:
 		print("Error")
 		exit()
@@ -44,15 +41,18 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--map", type=check_file, help="")
 	parser.add_argument("-v", "--visu", action="store_true", help="Enable visualisation")
 	parser.add_argument("-g", "--generate", type=int, help="Generate")
+	parser.add_argument("-i", "--iteration", type=int, help="iteration")
 	args = parser.parse_args()
 	if args.map is None:
 		if args.generate == None:
 			n = 3
-			print("Puzzle has been created with size = 3 by default")
+			print("Puzzle has been created with size = 3 by default", end="")
 		else:
 			n = int(args.generate)
-			print(f"Puzzle has been created with size = {n}")
-		solution = generator.gen_solution(n)
+			print(f"Puzzle has been created with size = {n}", end="")
+		i = int(args.iteration) if args.iteration is not None and int(args.iteration) < 1 else 100
+		print(f" and mixed with {i} iterations")
+		solution = generator.gen_puzzle(n, i)
 		print(solution)
 	else :
 		print(args.map)
