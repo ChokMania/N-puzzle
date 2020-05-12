@@ -11,9 +11,10 @@ def check_file(file):
 			data = f.read()
 			ds, i = data.split("\n"), 0
 			size = 3
+			numbers = []
 			for line in ds:
 				line = re.sub(r"[\s\t]+", ' ', line).strip()
-				if line.strip()[0] != "#":
+				if line != "" and line.strip()[0] != "#":
 					if i == 0:
 						n = line.split()
 						if len(n) != 1:
@@ -29,9 +30,9 @@ def check_file(file):
 							raise ValueError()
 						array[i - 1] = app
 					i += 1
-			#print(f"FILE : \n{data}\n")
-			#print(f"Array returned : \n{array}\n")
-			#print(f"Comments: \n{comments}")
+			array = np.round(array.transpose()).astype(int)
+			if i != size + 1 or not np.array_equal(np.sort(np.concatenate(array)), np.array(range(0, size * size))):
+				raise ValueError()
 			return array
 	except:
 		print("Error")
@@ -55,4 +56,3 @@ if __name__ == "__main__":
 		print(solution)
 	else :
 		print(args.map)
-
