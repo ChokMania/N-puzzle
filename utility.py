@@ -1,18 +1,18 @@
 import numpy as np
 
-def is_valid_or_empty(sol, x, y):
+def	is_valid_or_empty(sol, x, y):
 	n = len(sol[0])
 	if (x == n or y == n or sol[y][x] != 0):
 		return (0)
 	return (1)
 
-def is_valid(sol, x, y):
+def	is_valid(sol, x, y):
 	n = len(sol[0])
 	if (x == n or y == n):
 		return (0)
 	return (1)
 
-def get_empty(state):
+def	get_empty(state):
 	x = 0
 	while x != len(state[0]):
 		y = 0
@@ -22,7 +22,7 @@ def get_empty(state):
 			y += 1
 		x += 1
 
-def get_moves(state):
+def	get_moves(state):
 	x, y = get_empty(state)
 	poss = []
 	if is_valid(state, x + 1, y):
