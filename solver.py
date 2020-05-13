@@ -38,6 +38,7 @@ def solve(grid, n):
 	h_score = manhattan_dist(grid, n, x_tar, y_tar)
 	parent = Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0)
 	open_list = []
+	max_ol = 0
 	for move in utility.get_moves(grid):
 		child = Node(parent, move, manhattan_dist(move, n, x_tar, y_tar), parent.dist)
 		open_list.append(child)
@@ -45,13 +46,15 @@ def solve(grid, n):
 	closed_list = [parent]
 	done = False
 	while (open_list and not done):
+		if (len(open_list) > max_ol):
+			max_ol = len(open_list)
 		open_list = sorted(open_list, key=operator.attrgetter('total'))
 		parent = open_list[0]
 		for move in utility.get_moves(parent.grid):
 			accept = True
 			if (np.array_equal(move, solution)):
 				done = True
-				print("Yay!\n", move, parent.dist + 1)
+				print("Solved!\n", move, "\nNumber of moves:", parent.dist + 1, "\nOpen list max length:", max_ol, "\nClosed list length:", len(closed_list))
 				break
 			for c in closed_list:
 				if np.array_equal(c.grid, move):
@@ -65,7 +68,8 @@ def solve(grid, n):
 		open_list.pop(0)
 
 
-n = 4
+n = 3
 grid = generator.gen_puzzle(n, 100)
-print(grid)
+print("Grid to solve:")
+print(grid, "\n")
 solve(grid, n)
