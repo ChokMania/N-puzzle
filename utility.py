@@ -6,6 +6,12 @@ def	is_valid_or_empty(sol, x, y):
 		return (0)
 	return (1)
 
+def is_valid_or_full(a, x, y):
+	n = len(a[0])
+	if (x == n or y == n or a[y][x] == 0):
+		return (0)
+	return (1)
+
 def	is_valid(sol, x, y):
 	n = len(sol[0])
 	if (x == n or y == n or x == -1 or y == -1):
