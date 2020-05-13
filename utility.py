@@ -8,7 +8,7 @@ def	is_valid_or_empty(sol, x, y):
 
 def	is_valid(sol, x, y):
 	n = len(sol[0])
-	if (x == n or y == n):
+	if (x == n or y == n or x == -1 or y == -1):
 		return (0)
 	return (1)
 
