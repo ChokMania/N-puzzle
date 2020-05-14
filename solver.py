@@ -38,6 +38,7 @@ def solve(grid, n):
 	open_list = [Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0)]
 	closed_list = {}
 	max_ol = 0
+	total_ol = 1
 	done = False
 	while (open_list and not done):
 		if (len(open_list) > max_ol):
@@ -47,18 +48,26 @@ def solve(grid, n):
 		for move in utility.get_moves(parent.grid):
 			if (np.array_equal(move, solution)):
 				done = True
-				print("Solved!\n", move, "\nNumber of moves:", parent.dist + 2, "\nOpen list max length:", max_ol, "\nClosed list length:", len(closed_list))
+				solving = [move]
+				print("Solved!\nNumber of moves:", parent.dist + 1, "\nOpen list max length:", max_ol, "\nOpen list total:", total_ol,"\nClosed list length:", len(closed_list))
+				while parent.parent != None:
+					solving.insert(0, parent.grid)
+					parent = parent.parent
+				print("\nMoves to solution:")
+				for state in solving:
+					print(state, "\n")
 				break
 			if (not np.array2string(np.concatenate(move)) in closed_list):
 				child = Node(parent, move, manhattan_dist(move, n, x_tar, y_tar), parent.dist + 1)
 				open_list.append(child)
+				total_ol += 1
 				del child
 		closed_list[np.array2string(np.concatenate(parent.grid))] = parent
 		open_list.pop(0)
 
 
 n = 3
-grid = generator.gen_puzzle(n, 100)
+grid = generator.gen_puzzle(n, 10)
 print("Grid to solve:")
 print(grid, "\n")
 solve(grid, n)
