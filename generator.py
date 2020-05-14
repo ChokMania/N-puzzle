@@ -38,22 +38,3 @@ def	gen_solution(n):
 		x += sx
 		y += sy
 	return sol
-
-
-def gen_line(n, a):
-	res = []
-	i = 1
-	x, y = [0, 0]
-	sx, sy = [1, 0]
-	while i != n**2 + 1:
-		if (utility.is_valid_or_full(a, x + sx, y + sy) == 0):
-			sx, sy = cycle(sx, sy)
-		if a[y][x] == -1:
-			res.append(0)
-		else:
-			res.append(a[y][x])
-		a[y][x] = 0
-		i += 1
-		x += sx
-		y += sy
-	return res
