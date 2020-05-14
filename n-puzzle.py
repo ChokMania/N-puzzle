@@ -35,38 +35,39 @@ def check_file(file):
 		print("Error")
 		exit()
 
-def is_solvable(map) :
-	map2 = np.int64(map)
-	shape = utility.get_empty(np.int64(map))
-	map2[shape[1]][shape[0]] = -1
-	arr = generator.gen_line(map.shape[0], map2)
+def is_solvable(map, verbose) :
+	puzzle = np.concatenate(map)
+	solved_full = generator.gen_solution(map.shape[0])
+	solved = np.concatenate(np.int64(solved_full))
 	inversion = 0
-	for i in range(len(arr) - 1):
+	if verbose == True:
+		print(f"Puzzle: \n{map}\n\nSolved: \n{np.int64(solved_full)}\n")
+	for i in range(len(puzzle) - 1):
 		count = 0
-		if arr[i] != 0:
-			for j in range(i + 1, len(arr)) :
-				if arr[i] > arr[j] and arr[j] != 0:
-					count += 1
-			#print(f"the {arr[i]} gives us {count} inversions")
-			inversion += count
-	blank = int(map.shape[0]) - int(utility.get_empty(np.int64(map))[1])
-	print(f"Array : {arr}\nShape : {map.shape[0]}\nBlank Position : {blank}\nCount of inversions: {inversion}\n\n")
-	#print(f"MOD:\nmap.shape : {map.shape[0] % 2}\tblank : {blank % 2}\t"
-	print(f"inversion : {inversion % 2}")
-	if map.shape[0] % 2 == 1 and inversion % 2 == 0:
-		print("Solvable")
-	elif map.shape[0] % 2 == 0 and blank % 2 == 0 and inversion % 2 == 1:
-		print("Solvable")
-	elif map.shape[0] % 2 == 0 and blank % 2 == 1 and inversion % 2 == 0:
-		print("Solvable")
-	else:
-		print("Unsolvable")
-		exit()
+		for j in range(i + 1, len(puzzle)) :
+			vi = puzzle[i]
+			vj = puzzle[j]
+			if np.where(solved == vi) > np.where(solved == vj):
+				count += 1
+		if verbose == True:
+			print(f"the {puzzle[i]} gives us {count} inversions")
+		inversion += count
+	blank_puzzle = utility.get_empty(map)
+	blank_solved = utility.get_empty(solved_full)
+	if verbose == True:
+		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nBlank Position (column, row):\n\tPuzzle {blank_puzzle}\n\tSolved: {blank_solved}\nCount of inversions: {inversion}\n")
+	blank = abs(blank_puzzle[1] - blank_solved[1]) + abs(blank_puzzle[0] - blank_solved[0])
+	if blank % 2 == 0 and inversion % 2 == 0:
+		return True
+	if blank % 2 == 1 and inversion % 2 == 1:
+		return True
+	return False
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-m", "--map", type=check_file, help="")
 	parser.add_argument("-v", "--visu", action="store_true", help="Enable visualisation")
+	parser.add_argument("-vb", "--verbose", action="store_true", help="verbose")
 	parser.add_argument("-g", "--generate", type=int, help="Generate")
 	parser.add_argument("-i", "--iteration", type=int, help="iteration")
 	args = parser.parse_args()
@@ -79,8 +80,7 @@ if __name__ == "__main__":
 			print(f"Puzzle has been created with size = {n}", end="")
 		i = int(args.iteration) if args.iteration is not None and int(args.iteration) < 1 else 100
 		print(f" and mixed with {i} iterations")
-		map = generator.gen_puzzle(n, i)
-		is_solvable(map)
-	else :
-		is_solvable(args.map)
-
+		args.map = generator.gen_puzzle(n, i)
+	if is_solvable(args.map, args.verbose) == False:
+		print("Puzzle is unsolvable")
+		exit()
