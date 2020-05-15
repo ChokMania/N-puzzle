@@ -6,13 +6,15 @@ import operator
 import time
 
 class Node:
-	def __init__(self, parent, grid, h_score, dist):
+	def __init__(self, parent, grid, h_score, dist, greedy):
 		self.parent = parent
 		self.grid = grid
 		self.h_score = h_score
 		self.dist = dist
-		#self.total = h_score + dist
-		self.total = h_score
+		if (not greedy):
+			self.total = h_score + dist
+		else:
+			self.total = h_score
 
 class Queue:
 	def __init__(self, first):
@@ -61,12 +63,12 @@ def gen_stats(solved, parent, max_ol, total_ol, len_cl):
 		parent = parent.parent
 	return steps
 
-def solve(grid, n):
+def solve(grid, n, h_fnc, greedy):
 	solution = generator.gen_solution(n)
 	if np.array_equal(grid, solution):
 		return None
 	x_tar, y_tar = get_listed_coords(n)
-	open_list = Queue(Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0))
+	open_list = Queue(Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0, greedy))
 	closed_list = {}
 	max_ol, total_ol = 0, 1
 	while (len(open_list.lst) != 0):
@@ -78,26 +80,8 @@ def solve(grid, n):
 				steps = gen_stats(move, parent, max_ol, total_ol, len(closed_list))
 				return steps
 			if (not np.array2string(np.concatenate(move)) in closed_list):
-				child = Node(parent, move, manhattan_dist(move, n, x_tar, y_tar), parent.dist + 1)
+				child = Node(parent, move, manhattan_dist(move, n, x_tar, y_tar), parent.dist + 1, greedy)
 				open_list.insert(child)
 				total_ol += 1
 				del child
 		closed_list[np.array2string(np.concatenate(parent.grid))] = parent
-
-
-#before = time.time()
-n = 3
-grid = generator.gen_puzzle(n, random.randint(50, 100))
-print("Grid to solve:\n", grid, "\n")
-steps = solve(grid, n)
-#print(time.time() - before)
-if (steps):
-	print("\nMoves to solution:")
-	for state in steps:
-		print(state, "\n")
-else:
-<<<<<<< Updated upstream
-	print("Already solved from the start")
-=======
-	print("Already solved from the start")
->>>>>>> Stashed changes

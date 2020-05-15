@@ -1,5 +1,5 @@
-import argparse
-import generator, check
+import argparse, check, time
+import generator, solver, visu
 
 def manager(args):
 	if args.map is None:
@@ -15,18 +15,7 @@ def manager(args):
 	if check.is_solvable(args.map, args.verbose) == False:
 		print("Puzzle is unsolvable")
 		exit()
-	h_dic = {0:"Manhattan Distance", 1:"Other1", 2:"Other2"}
-	while True:
-		try:
-			heuristic = int(input(f"Choose your heuristic function:\n1- {h_dic[0]}\n2- {h_dic[1]}\n3- {h_dic[2]}\n\nChoice: ")) - 1
-			if heuristic > 2 or heuristic < 0:
-				raise ValueError
-			break 
-		except ValueError as e:
-			print("Select one of the possibilities")
-	if args.verbose == True:
-		print(f"\nHeuristic function : {h_dic[heuristic]}")
-	return args.map, heuristic
+	return args.map
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
@@ -35,7 +24,20 @@ if __name__ == "__main__":
 	parser.add_argument("-vb", "--verbose", action="store_true", help="verbose")
 	parser.add_argument("-g", "--generate", type=int, help="Generate")
 	parser.add_argument("-i", "--iteration", type=int, help="iteration")
-	parser.add_argument("-g", "--greedy", action="store_true", help="greedy search")
+	parser.add_argument("-gr", "--greedy", action="store_true", help="greedy search")
 	parser.add_argument("-t", "--time", action="store_true", help="time")
+	parser.add_argument("-hf", "--heuristic", default="Manhattan", choices=["Manhattan", "C1", "C2"], help="Heuristic function choice, (default: %(default)s)")
 	args = parser.parse_args()
-	grid, heuristic = manager(args)
+	grid = manager(args)
+	t_start = time.time()
+	steps = solver.solve(grid, len(grid[0]), args.heuristic, args.greedy)
+	if args.time:
+		print ("This took %.2f seconds" % (time.time() - t_start))
+	#if (steps):
+	#	print("\nMoves to solution:")
+	#	for state in steps:
+	#		print(state, "\n")
+	#else:
+	#	print("Already solved from the start")
+	if args.visu:
+		visu.visu(grid, steps, len(grid[0]))
