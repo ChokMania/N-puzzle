@@ -73,4 +73,4 @@ if (steps):
 	for state in steps:
 		print(state, "\n")
 else:
-	print("Already solved from the start dummy")
+	print("Already solved from the start")
