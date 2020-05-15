@@ -36,12 +36,12 @@ def file(file):
 		exit()
 
 def is_solvable(map, verbose) :
-	puzzle = np.concatenate(map)
+	puzzle = np.concatenate(np.int64(map))
 	solved_full = generator.gen_solution(map.shape[0])
 	solved = np.concatenate(np.int64(solved_full))
 	inversion = 0
 	if verbose == True:
-		print(f"Puzzle: \n{map}\n\nSolved: \n{np.int64(solved_full)}\n")
+		print(f"Puzzle: \n{np.int64(map)}\n\nSolved: \n{np.int64(solved_full)}\n")
 	for i in range(len(puzzle) - 1):
 		count = 0
 		for j in range(i + 1, len(puzzle)) :
@@ -55,7 +55,7 @@ def is_solvable(map, verbose) :
 	blank_puzzle = utility.get_empty(map)
 	blank_solved = utility.get_empty(solved_full)
 	if verbose == True:
-		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nBlank Position (column, row):\n\tPuzzle {blank_puzzle}\n\tSolved: {blank_solved}\nCount of inversions: {inversion}\n")
+		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nBlank Position (column, row):\n\tPuzzle: {blank_puzzle}\n\tSolved: {blank_solved}\nCount of inversions: {inversion}\n")
 	blank = abs(blank_puzzle[1] - blank_solved[1]) + abs(blank_puzzle[0] - blank_solved[0])
 	if blank % 2 == 0 and inversion % 2 == 0:
 		return True
