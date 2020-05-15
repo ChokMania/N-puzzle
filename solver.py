@@ -1,9 +1,6 @@
+import random, operator,  time
 import numpy as np
-import generator
-import utility
-import random
-import operator
-import time
+import generator ,utility
 
 class Node:
 	def __init__(self, parent, grid, h_score, dist, greedy):

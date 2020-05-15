@@ -17,17 +17,7 @@ def manager(args):
 		exit()
 	return args.map
 
-if __name__ == "__main__":
-	parser = argparse.ArgumentParser()
-	parser.add_argument("-m", "--map", type=check.file, help="")
-	parser.add_argument("-v", "--visu", action="store_true", help="Enable visualisation")
-	parser.add_argument("-vb", "--verbose", action="store_true", help="verbose")
-	parser.add_argument("-g", "--generate", type=int, help="Generate")
-	parser.add_argument("-i", "--iteration", type=int, help="iteration")
-	parser.add_argument("-gr", "--greedy", action="store_true", help="greedy search")
-	parser.add_argument("-t", "--time", action="store_true", help="time")
-	parser.add_argument("-hf", "--heuristic", default="Manhattan", choices=["Manhattan", "C1", "C2"], help="Heuristic function choice, (default: %(default)s)")
-	args = parser.parse_args()
+def npuzzle(args):
 	grid = manager(args)
 	t_start = time.time()
 	steps = solver.solve(grid, len(grid[0]), args.heuristic, args.greedy)
@@ -41,3 +31,16 @@ if __name__ == "__main__":
 	#	print("Already solved from the start")
 	if args.visu:
 		visu.visu(grid, steps, len(grid[0]))
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-m", "--map", type=check.file, help="")
+	parser.add_argument("-v", "--visu", action="store_true", help="Enable visualisation")
+	parser.add_argument("-vb", "--verbose", action="store_true", help="verbose")
+	parser.add_argument("-g", "--generate", type=int, help="Generate")
+	parser.add_argument("-i", "--iteration", type=int, help="iteration")
+	parser.add_argument("-gr", "--greedy", action="store_true", help="greedy search")
+	parser.add_argument("-t", "--time", action="store_true", help="time")
+	parser.add_argument("-hf", "--heuristic", default="Manhattan", choices=["Manhattan", "C1", "C2"], help="Heuristic function choice, (default: %(default)s)")
+	args = parser.parse_args()
+	npuzzle(args)
