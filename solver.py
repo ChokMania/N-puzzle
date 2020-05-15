@@ -3,6 +3,36 @@ import generator
 import utility
 import random
 import operator
+import time
+
+class Node:
+	def __init__(self, parent, grid, h_score, dist):
+		self.parent = parent
+		self.grid = grid
+		self.h_score = h_score
+		self.dist = dist
+		#self.total = h_score + dist
+		self.total = h_score
+
+class Queue:
+	def __init__(self, first):
+		self.lst = [first]
+		self.biggest = first.total
+
+	def insert(self, data):
+		if (data.total >= self.biggest or len(self.lst) == 0):
+			self.biggest = data.total
+			self.lst.append(data)
+		else:
+			for i in range(len(self.lst)):
+				if (self.lst[i].total >= data.total):
+					self.lst.insert(i, data)
+					break
+	
+	def pop_first(self):
+		ret = self.lst[0]
+		self.lst.pop(0)
+		return ret
 
 def	get_listed_coords(n):
 	target = generator.gen_solution(n)
@@ -31,46 +61,43 @@ def gen_stats(solved, parent, max_ol, total_ol, len_cl):
 		parent = parent.parent
 	return steps
 
-class Node:
-	def __init__(self, parent, grid, h_score, dist):
-		self.parent = parent
-		self.grid = grid
-		self.h_score = h_score
-		self.dist = dist
-		self.total = h_score + dist
-
 def solve(grid, n):
 	solution = generator.gen_solution(n)
 	if np.array_equal(grid, solution):
 		return None
 	x_tar, y_tar = get_listed_coords(n)
-	open_list = [Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0)]
+	open_list = Queue(Node(None, grid, manhattan_dist(grid, n, x_tar, y_tar), 0))
 	closed_list = {}
 	max_ol, total_ol = 0, 1
-	while (open_list):
-		if (len(open_list) > max_ol):
-			max_ol = len(open_list)
-		open_list = sorted(open_list, key=operator.attrgetter('total'))
-		parent = open_list[0]
+	while (len(open_list.lst) != 0):
+		if (len(open_list.lst) > max_ol):
+			max_ol = len(open_list.lst)
+		parent = open_list.pop_first()
 		for move in utility.get_moves(parent.grid):
 			if (np.array_equal(move, solution)):
 				steps = gen_stats(move, parent, max_ol, total_ol, len(closed_list))
 				return steps
 			if (not np.array2string(np.concatenate(move)) in closed_list):
 				child = Node(parent, move, manhattan_dist(move, n, x_tar, y_tar), parent.dist + 1)
-				open_list.append(child)
+				open_list.insert(child)
 				total_ol += 1
 				del child
 		closed_list[np.array2string(np.concatenate(parent.grid))] = parent
-		open_list.pop(0)
 
+
+#before = time.time()
 n = 3
-grid = generator.gen_puzzle(n, 100)
+grid = generator.gen_puzzle(n, random.randint(50, 100))
 print("Grid to solve:\n", grid, "\n")
 steps = solve(grid, n)
+#print(time.time() - before)
 if (steps):
 	print("\nMoves to solution:")
 	for state in steps:
 		print(state, "\n")
 else:
+<<<<<<< Updated upstream
 	print("Already solved from the start")
+=======
+	print("Already solved from the start")
+>>>>>>> Stashed changes
