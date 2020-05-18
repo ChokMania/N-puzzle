@@ -1,5 +1,11 @@
 import numpy as np
 
+def display_puzzle(grid):
+	for i in grid:
+		for j in i:
+			print(f"{int(j)}", end=" ")
+		print("")
+
 def	is_valid_or_empty(sol, x, y):
 	n = len(sol[0])
 	if (x == n or y == n or sol[y][x] != 0):

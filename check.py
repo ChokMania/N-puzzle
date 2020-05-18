@@ -41,7 +41,10 @@ def is_solvable(map, verbose) :
 	solved = np.concatenate(np.int64(solved_full))
 	inversion = 0
 	if verbose == True:
-		print(f"Puzzle: \n{np.int64(map)}\n\nSolved: \n{np.int64(solved_full)}\n")
+		print("Puzzle: ")
+		utility.display_puzzle(map)
+		print("\nSolved:")
+		utility.display_puzzle(solved_full)
 	for i in range(len(puzzle) - 1):
 		count = 0
 		for j in range(i + 1, len(puzzle)) :
@@ -49,13 +52,11 @@ def is_solvable(map, verbose) :
 			vj = puzzle[j]
 			if np.where(solved == vi) > np.where(solved == vj):
 				count += 1
-		if verbose == True:
-			print(f"the {puzzle[i]} gives us {count} inversions")
 		inversion += count
 	blank_puzzle = utility.get_empty(map)
 	blank_solved = utility.get_empty(solved_full)
 	if verbose == True:
-		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nBlank Position (column, row):\n\tPuzzle: {blank_puzzle}\n\tSolved: {blank_solved}\nCount of inversions: {inversion}\n")
+		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nCount of inversions: {inversion}\n")
 	blank = abs(blank_puzzle[1] - blank_solved[1]) + abs(blank_puzzle[0] - blank_solved[0])
 	if blank % 2 == 0 and inversion % 2 == 0:
 		return True
