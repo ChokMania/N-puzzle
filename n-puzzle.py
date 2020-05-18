@@ -2,9 +2,6 @@ import argparse, check, time
 import generator, solver, visu
 
 def manager(args):
-	if args.greedy and args.uniform:
-		print("Can't solve using both greedy and uniform")
-		exit()
 	if args.map is None:
 		if args.generate == None:
 			n = 3
@@ -37,14 +34,15 @@ def npuzzle(args):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-m", "--map", type=check.file, help="")
-	parser.add_argument("-v", "--visu", action="store_true", help="Enable visualisation")
-	parser.add_argument("-vb", "--verbose", action="store_true", help="verbose")
-	parser.add_argument("-g", "--generate", type=int, help="Generate")
-	parser.add_argument("-i", "--iteration", type=int, help="iteration")
-	parser.add_argument("-gr", "--greedy", action="store_true", help="greedy search")
-	parser.add_argument("-un", "--uniform", action="store_true", help="uniform search")
-	parser.add_argument("-t", "--time", action="store_true", help="time")
+	group = parser.add_mutually_exclusive_group()
+	parser.add_argument("-m", "--map", metavar = 'file', type=check.file, help="")
+	parser.add_argument("-vi", "--visu", action="store_true", help="Enable visualisation")
+	parser.add_argument("-vb", "--verbose", action="store_true", help="Enable verbose (may slow the algorithm)")
+	parser.add_argument("-g", "--generate", metavar = 'size', type=int, help="Generate a n-size puzzle ")
+	parser.add_argument("-i", "--iteration", metavar = 'number', type=int, help="")
+	group.add_argument("-gr", "--greedy", action="store_true", help="Enable greedy search")
+	group.add_argument("-un", "--uniform", action="store_true", help="Enable uniform-cost search")
+	parser.add_argument("-t", "--time", action="store_true", help="Enable verbose of time for the algorithm")
 	parser.add_argument("-hf", "--heuristic", default="Manhattan", choices=["Manhattan", "Euclidian", "Tiles out-of-place"], help="Heuristic function choice, (default: %(default)s)")
 	args = parser.parse_args()
 	npuzzle(args)

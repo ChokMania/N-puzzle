@@ -95,7 +95,7 @@ def solve(grid, n, h_fnc, greedy, uniform, verbose):
 	if verbose:
 		print(f"Solving with {h_fnc} heuristic function using", end='')
 		if greedy or uniform:
-			print(f" {'greedy' if greedy else 'uniform-cost'}", end='')
+			print(f" {'greedy' if greedy else 'uniform-cost' if uniform else 'normal'}", end='')
 		print(" A* algorithm")
 	while (len(open_list.lst) != 0):
 		if (len(open_list.lst) > cpl_size):

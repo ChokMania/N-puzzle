@@ -4,7 +4,7 @@ import pygame
 import numpy as np
 import generator, utility
 
-class SlidePuzzle:
+class NPuzzle:
 	def __init__(self, gs, ts, ms, grid, grid_full):
 		self.gs, self.ts, self.ms = gs, ts, gs
 		self.tiles_len = gs[0] * gs[1] - 1
@@ -94,7 +94,7 @@ class SlidePuzzle:
 					self.speed_slide += 20
 			if event.key == pygame.K_r and self.resolution == 0:
 				self.resolution = 1
-			elif event.key == pygame.K_r:
+			elif event.key == pygame.K_r and self.resolution == 1:
 				self.resolution = 0
 				self.reverse = 0
 			if event.key == 276. and self.resolution == 0:
@@ -108,7 +108,7 @@ def main(size, h, w, grid, size_ts, grid_full):
 	pygame.display.set_caption("NPuzzle")
 	screen = pygame.display.set_mode((h, w))
 	fpsclock = pygame.time.Clock()
-	program = SlidePuzzle((size, size), size_ts, 5, grid, grid_full)
+	program = NPuzzle((size, size), size_ts, 5, grid, grid_full)
 	while True:
 		dt = fpsclock.tick() / 1000
 		screen.fill((0, 0, 0))
