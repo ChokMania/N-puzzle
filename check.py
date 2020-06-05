@@ -56,7 +56,7 @@ def is_solvable(map, verbose) :
 	blank_puzzle = utility.get_empty(map)
 	blank_solved = utility.get_empty(solved_full)
 	if verbose == True:
-		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\nCount of inversions: {inversion}\n")
+		print(f"\nPuzzle: {puzzle}\nSolved: {solved}\nShape : {map.shape[0]}\Number of inversions: {inversion}\n")
 	blank = abs(blank_puzzle[1] - blank_solved[1]) + abs(blank_puzzle[0] - blank_solved[0])
 	if blank % 2 == 0 and inversion % 2 == 0:
 		return True

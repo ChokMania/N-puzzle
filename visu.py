@@ -123,10 +123,10 @@ def main(size, h, w, grid, size_ts, grid_full):
 
 def visu(grid, steps, n):
 	if n > 20:
-		print("Max is a 20x20 puzzle, otherwise it does not fit on the screen.")
+		print("Max puzzle size is 20x20, otherwise it does not fit the screen.")
 		return
 	if steps == None:
-		print("Visu is useless if puzzle is already solved.")
+		print("Visualizer is useless if puzzle is already solved.")
 		return
 	if n > 4:
 		size_ts = int(800 / n)
