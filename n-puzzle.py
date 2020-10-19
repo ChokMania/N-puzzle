@@ -23,11 +23,12 @@ def npuzzle(args):
 	steps = solver.solve(grid, len(grid[0]), args.heuristic, args.greedy, args.uniform, args.verbose)
 	if args.time:
 		print ("Solving took %.2f seconds" % (time.time() - t_start))
-	if (steps):
-		print("\nMoves to solution:")
-		for i,state in enumerate(steps, start=1):
-			print("Step", i)
-			utility.display_puzzle(state); print()
+	if steps:
+		if args.debug == False :
+			print("\nMoves to solution:")
+			for i,state in enumerate(steps, start=1):
+				print("Step", i)
+				utility.display_puzzle(state); print()
 	else:
 		print("Already solved from the start")
 	if args.visu:
@@ -43,6 +44,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--iteration", metavar="number", type=int, help="Choose the number of scrambling moves")
 	group.add_argument("-gr", "--greedy", action="store_true", help="Enable greedy search")
 	group.add_argument("-un", "--uniform", action="store_true", help="Enable uniform-cost search")
+	parser.add_argument("-d", "--debug", action="store_true")
 	parser.add_argument("-t", "--time", action="store_true", help="Print the algorithm's execution time")
 	parser.add_argument("-hf", "--heuristic", default="Manhattan", choices=["Manhattan", "Euclidian", "Tiles out-of-place"], help="Heuristic function choice, (default: %(default)s)")
 	args = parser.parse_args()

@@ -97,9 +97,9 @@ class NPuzzle:
 			elif event.key == pygame.K_r and self.resolution == 1:
 				self.resolution = 0
 				self.reverse = 0
-			if event.key == 276. and self.resolution == 0:
+			if event.key == pygame.K_LEFT and self.resolution == 0:
 				self.reverse = 1
-			if event.key == 275. and self.resolution == 0:
+			if event.key == pygame.K_RIGHT and self.resolution == 0:
 				self.next = 1
 
 def main(size, h, w, grid, size_ts, grid_full):
