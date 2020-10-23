@@ -3,7 +3,7 @@ import numpy as np
 def display_puzzle(grid):
 	for i in grid:
 		for j in i:
-			print(f"{int(j)}", end=" ")
+			print(f"{int(j):2d}", end=" ")
 		print("")
 
 def	is_valid_or_empty(sol, x, y):

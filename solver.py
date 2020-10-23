@@ -45,6 +45,12 @@ def	get_listed_coords(n):
 			y_crd[int(target[j][i])] = j
 	return (x_crd, y_crd)
 
+"""
+The Manhattan distance heuristic is used because it is actually
+a pretty good underestimate (aka a lower bound) on the number of moves required to bring
+a given board to the solution board.
+We simply compute the sum of the distances of each tile from where it belongs, completely ignoring all the other tiles.
+"""
 def	manhattan_dist(grid, n, x_tar, y_tar):
 	dist = 0
 	for i in range(n):
@@ -54,6 +60,10 @@ def	manhattan_dist(grid, n, x_tar, y_tar):
 				dist += int(abs(j - y_tar[nbr])) + int(abs(i - x_tar[nbr]))
 	return dist
 
+"""
+MSE
+"""
+
 def	euclidian_dist(grid, n, x_tar, y_tar):
 	dist = 0
 	for i in range(n):
@@ -62,6 +72,10 @@ def	euclidian_dist(grid, n, x_tar, y_tar):
 			if nbr != 0:
 				dist += round(math.sqrt(int((j - y_tar[nbr])**2) + int((i - x_tar[nbr])**2)))
 	return dist
+
+"""
+Compute the number of tiles that are out of place
+"""
 
 def toof(grid, n, x_tar, y_tar):
 	dist = 0
