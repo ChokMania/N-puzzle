@@ -8,7 +8,6 @@ def file(file):
 			data = f.read()
 			ds, i = data.split("\n"), 0
 			size = 3
-			numbers = []
 			for line in ds:
 				line = re.sub(r"[\s\t]+", ' ', line).strip()
 				if line != "" and line.strip()[0] != "#":
