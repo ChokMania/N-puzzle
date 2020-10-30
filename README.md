@@ -1,5 +1,5 @@
 
-# n-puzzle[(subject)](https://cdn.intra.42.fr/pdf/pdf/13342/en.subject.pdf)
+# n-puzzle [(subject)](https://cdn.intra.42.fr/pdf/pdf/13342/en.subject.pdf)
 
 ## Introduction
 
